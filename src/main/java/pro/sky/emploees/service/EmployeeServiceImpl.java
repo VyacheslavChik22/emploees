@@ -18,6 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeList = new ArrayList<>();
     }
 
+
+    
     @Override
     public Employee add(String firstName, String lastName, int department, double salary) {
         Employee employee = new Employee(firstName, lastName, department, salary);
@@ -49,11 +51,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Map<Integer, List<Employee>> getAllEmployees() {
+
+        return employeeList.stream().collect(Collectors.groupingBy((Employee::getDepartment)));
+
+    }
+
+    @Override
     public Collection<Employee> findAll() {
         return Collections.unmodifiableList(employeeList);
 
     }
-
 
     @Override
     public Employee findEmployeeWithMaxSalary(Integer departmentId) {
@@ -81,13 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    @Override
-    public Collection<Employee> findAllEmployeeByDepartments(Integer departmentId) {
 
-        return null;
-
-
-    }
 
 
 }

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.emploees.Employee;
 import pro.sky.emploees.service.EmployeeService;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -52,16 +55,17 @@ public class EmployeeController {
     }
 
 
-
+@GetMapping("/departments/all")
+public Map<Integer, List<Employee>> getAll(){
+        return service.getAllEmployees();
+}
 
     @GetMapping("/departments/all-department")
     public Collection<Employee> findEmployeesFromDepartment(@RequestParam Integer departmentId) {
         return service.findEmployeesFromDepartment(departmentId);
     }
 
-    @GetMapping("/departments/all")
-    public Collection<Employee> findAllEmployeeByDepartments(@RequestParam Integer departmentId) {return service.findAllEmployeeByDepartments(departmentId);
-    }
+
 }
 
 

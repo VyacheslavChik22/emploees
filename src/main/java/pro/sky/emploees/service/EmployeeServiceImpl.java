@@ -1,9 +1,11 @@
 package pro.sky.emploees.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.emploees.Employee;
 import pro.sky.emploees.exeption.EmployeeAlreadyAddedException;
 import pro.sky.emploees.exeption.EmployeeNotFoundException;
+import pro.sky.emploees.exeption.InvalidInputException;
 
 
 import java.util.*;
@@ -19,9 +21,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    
     @Override
     public Employee add(String firstName, String lastName, int department, double salary) {
+
+        if (!validateInput(firstName, lastName)) {
+            throw new InvalidInputException();
+        }
         Employee employee = new Employee(firstName, lastName, department, salary);
         if (employeeList.contains(employee)) {
             throw new EmployeeAlreadyAddedException();
@@ -32,6 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee remove(String firstName, String lastName, int department, double salary) {
+        if(!validateInput(firstName, lastName)){
+            throw new InvalidInputException();
+        }
         Employee employee = new Employee(firstName, lastName, department, salary);
         if (employeeList.contains(employee)) {
             employeeList.remove(employee);
@@ -42,6 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee find(String firstName, String lastName, int department, double salary) {
+        if(!validateInput(firstName, lastName)){
+            throw new InvalidInputException();
+        }
         Employee employee = new Employee(firstName, lastName, department, salary);
         if (employeeList.contains(employee)) {
             return employee;
@@ -89,7 +100,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-
+    private boolean validateInput(String firstName, String lastName) {
+        return StringUtils.isAlpha(firstName) & StringUtils.isAlpha(lastName);
+    }
 
 
 }
